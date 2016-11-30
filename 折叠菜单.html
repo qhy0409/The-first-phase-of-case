@@ -1,0 +1,124 @@
+<!DOCTYPE html>
+<html>
+<head lang="en">
+    <meta charset="UTF-8">
+    <title>折叠菜单</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0
+        }
+
+        ul {
+            list-style: none;
+        }
+
+        #menu {
+            width: 100px;
+            background: black;
+
+        }
+
+        #menu .main-menu {
+            width: 100%;
+            color: white;
+            line-height: 30px;
+            text-align: center;
+        }
+
+        #menu .sub-menu li {
+            background: #cccccc;
+            color: blueviolet;
+            border-bottom: 1px solid #000000;
+        }
+
+        #menu .sub-menu {
+            display: none;
+        }
+    </style>
+</head>
+<body>
+<ul id="menu">
+    <li class="main-menu">
+        <h3>link1</h3>
+        <ul class="sub-menu">
+            <li>sublink1</li>
+            <li>sublink2</li>
+            <li>sublink3</li>
+        </ul>
+    </li>
+    <li class="main-menu">
+        <h3>link2</h3>
+        <ul class="sub-menu">
+            <li>sublink1</li>
+            <li>sublink2</li>
+            <li>sublink3</li>
+        </ul>
+    </li>
+</ul>
+<script>
+    /*第三种实现方式 通过h3找兄弟节点ul  nextSibling可用来找兄弟节点（可以找元素节点 文本节点 注释节点） 只兼容IE nextElementSibling只可找元素节点 所以封装函数next*/
+    var oMenu = document.getElementById("menu");
+    var aH3 = oMenu.getElementsByTagName("h3");
+    var aSubMenu = oMenu.getElementsByTagName("ul");
+    for (var i = 0; i < aH3.length; i++) {
+        aH3[i].index = i;
+        aH3[i].bShow = false;
+        aH3[i].onclick = function () {
+            next(this).style.display = "block";
+            var oSubMenu=aSubMenu[this.index];
+            if(this.bShow){
+                oSubMenu.style.display="none";
+            }else{
+                oSubMenu.style.display="block";
+            }
+            this.bShow=!this.bShow;
+        };
+    }
+        function next(elem) {
+            do {
+                elem = elem.nextSibling;
+            } while (elem && elem.nodeType != 1);
+            return elem;
+        }
+
+
+
+
+    /*第二种实现方式
+     var oMenu = document.getElementById("menu");
+     var aH3 = oMenu.getElementsByTagName("h3");
+     var aSubmenu = oMenu.getElementsByTagName("ul");
+     for (var i = 0; i < aH3.length; i++) {
+     aH3[i].index = i;
+     aH3[i].bShow = false;
+     aH3[i].onclick = function () {
+     var oSubmenu = aSubmenu[this.index];
+     if (this.bShow) {
+     oSubmenu.style.display = "none"
+     } else {
+     oSubmenu.style.display = "block"
+     }
+     this.bShow = !this.bShow;
+     }
+     }*/
+
+    /*第一种实现方式
+     var oMenu = document.getElementById("menu");
+     var aLi = oMenu.getElementsByTagName("li");
+     for (var i = 0; i <aLi.length; i++) {
+     if (aLi[i].className == "main-menu") {
+     aLi[i].onclick = function () {
+     var oSubmenu = this.getElementsByTagName("ul")[0];
+     if (oSubmenu.style.display == "block") {
+     oSubmenu.style.display = "none";
+     } else {
+     oSubmenu.style.display = "block";
+     }
+     }
+     }
+     }*/
+</script>
+
+</body>
+</html>
