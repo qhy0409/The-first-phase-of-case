@@ -8,25 +8,20 @@
             margin: 0;
             padding: 0;
         }
-
         ul {
             list-style: none;
         }
-
         #container {
             width: 680px;
             height: 344px;
             margin: 50px auto;
             position: relative;
         }
-
         #tab {
             position: absolute;
             bottom: 10px;
             right: 10px;
-
         }
-
         #tab li {
             width: 20px;
             height: 20px;
@@ -38,17 +33,14 @@
             text-align: center;
             cursor: pointer;
         }
-
         #tab li.select {
             background: orange;
         }
-
         #arrow {
             position: absolute;
             bottom: 10px;
             left: 10px;
         }
-
         #arrow span {
             width: 20px;
             height: 20px;
@@ -61,15 +53,12 @@
             text-align: center;
             cursor: pointer;
         }
-
         #content img {
             display: none;
         }
-
         #content img.select {
             display: block;
         }
-
     </style>
 </head>
 <body>
@@ -114,7 +103,6 @@
             aLi[index].className = "select";
             aImg[index].className = "select";
         }
-
         oNext.onclick = function () {
             iNow++;
             if (iNow == aLi.length) {
@@ -140,8 +128,6 @@
                 oNext.onclick();
             }, 1000);
         }
-
-
     </script>
 </div>
 </body>
