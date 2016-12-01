@@ -1,0 +1,136 @@
+<!DOCTYPE html>
+<html>
+<head lang="en">
+    <meta charset="UTF-8">
+    <title>轮播图</title>
+    <style>
+        *{
+            margin:0;
+            padding:0;
+        }
+        ul{
+            list-style: none;
+        }
+       #container{
+            width:680px;
+            height:344px;
+            position:relative;
+            margin:50px auto;
+            overflow:hidden;
+        }
+        #tab{
+            position:absolute;
+            bottom:10px;
+            right:10px;
+            z-index:1;
+        }
+        #tab li{
+            float:left;
+            width:20px;
+            height:20px;
+            background:purple;
+            line-height:20px;
+            text-align:center;
+            cursor:pointer;
+            margin-right:5px;
+            color:white;
+        }
+        #tab li.select{
+            background: orangered;
+        }
+        #arrow{
+            position:absolute;
+            bottom:10px;
+            left:10px;
+        }
+        #arrow span{
+            width:20px;
+            height:20px;
+            background: purple;
+            float:left;
+            margin-left:5px;
+            line-height:20px;
+            text-align:center;
+            cursor:pointer;
+            color:white;
+        }
+        #content{
+            position: absolute;
+            left:0px;
+        }
+        #content img{
+            float:left;
+        }
+    </style>
+</head>
+<body>
+    <div id="container">
+        <ul id="tab">
+            <li class="select">1</li>
+            <li>2</li>
+            <li>3</li>
+            <li>4</li>
+        </ul>
+        <div id="content">
+            <img src="img/1.jpg" alt=""/>
+            <img src="img/2.jpg" alt=""/>
+            <img src="img/3.jpg" alt=""/>
+            <img src="img/4.jpg" alt=""/>
+        </div>
+        <div id="arrow">
+            <span id="prev">&lt;</span>
+            <span id="next">&gt;</span>
+        </div>
+    </div>
+    <script src="jslib.js"></script>
+    <script>
+        var oContainer=document.getElementById("container");
+        var aImg=oContainer.getElementsByTagName("img");
+        var oContent=document.getElementById("content");
+        var aLi=oContainer.getElementsByTagName("li");
+        var oPrev=document.getElementById("prev");
+        var oNext=document.getElementById("next");
+        var iNow=0;
+        oContent.style.width=aImg[0].offsetWidth*aImg.length+"px";
+        for(var i=0;i<aLi.length;i++){
+            aLi[i].index=i;
+            aLi[i].onmouseover=function(){
+                changImg(this.index);
+                iNow=this.index;
+            }
+        }
+        function changImg(index){
+            for(var i=0;i<aLi.length;i++){
+                aLi[i].className="";
+            }
+            aLi[index].className="select";
+            animate(oContent,{left:-aImg[0].offsetWidth*index});
+        }
+        oNext.onclick=function(){
+            iNow++;
+            if(iNow==aLi.length){
+                iNow=0;
+            }
+            changImg(iNow);
+        };
+        oPrev.onclick=function(){
+            iNow--;
+            if(iNow==-1){
+                iNow=aLi.length-1;
+            }
+            changImg(iNow);
+        };
+        timer=setInterval(function(){
+            oNext.onclick();
+        },1000);
+        oContainer.onmouseover=function() {
+            clearInterval(timer);
+        };
+        oContainer.onmouseout=function(){
+            timer=setInterval(function(){
+                oNext.onclick();
+            },1000);
+        }
+    </script>
+</body>
+</html>
