@@ -1,0 +1,87 @@
+<!DOCTYPE html>
+<html>
+<head lang="en">
+    <meta charset="UTF-8">
+    <title>自定义滚动条</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+        }
+
+        #container {
+            width: 300px;
+            height: 500px;
+            background: blueviolet;
+            position: relative;
+            overflow: hidden;
+
+        }
+
+        #content {
+            width: 280px;
+            position: absolute;
+            color: white;
+        }
+
+        #scroll-bar {
+            width: 20px;
+            height: 500px;
+            background: yellow;
+            position: absolute;
+            top: 0;
+            right: 0;
+        }
+
+        #scroll-btn {
+            width: 20px;
+            height: 30px;
+            position: absolute;
+            background-color: pink;
+            cursor: pointer;
+            top: 0;
+            left: 0;
+        }
+    </style>
+
+</head>
+<body>
+<div id="container">
+    <div id="content">
+        1哈哈哈哈哈哈哈哈哈哈哈哈哈哈哈哈哈哈哈哈哈哈哈哈哈哈哈哈哈哈哈哈哈哈哈哈哈哈哈哈哈哈哈哈哈哈哈哈哈哈哈哈哈哈哈哈哈哈哈哈哈哈哈哈哈哈哈哈哈哈哈哈哈哈哈哈哈哈哈哈哈哈哈哈哈哈哈哈哈哈哈哈哈哈哈哈哈哈哈哈哈哈哈哈哈哈哈哈哈哈哈哈哈哈哈哈哈哈哈哈哈哈哈哈哈哈哈哈哈哈哈哈哈哈哈哈哈哈哈哈哈哈哈哈哈哈哈哈哈哈哈哈哈哈哈哈哈哈哈哈哈哈哈哈哈哈哈哈哈哈哈哈哈哈哈哈哈哈哈哈哈哈哈哈哈哈哈哈哈哈哈哈哈哈哈哈哈哈哈哈哈哈哈哈哈哈哈哈哈哈哈哈哈哈哈哈哈哈哈哈哈哈哈哈哈哈哈哈哈哈哈哈哈哈哈哈哈哈哈哈哈哈哈哈哈哈哈哈哈哈哈哈哈哈哈哈哈哈哈哈哈哈哈哈哈哈哈哈哈哈哈哈哈哈哈哈哈哈哈哈哈哈哈哈哈哈哈哈哈哈哈哈哈哈哈哈哈哈哈哈哈哈哈哈哈哈哈哈哈哈哈哈哈哈哈哈哈哈哈哈哈哈哈哈哈哈哈哈哈哈哈哈哈哈哈哈哈哈哈哈哈哈哈哈哈哈哈哈哈哈哈哈哈哈哈哈哈哈哈哈哈哈哈哈哈哈哈哈哈哈哈哈哈哈哈哈哈哈哈哈哈哈哈哈哈哈哈哈哈哈哈哈哈哈哈哈哈哈哈哈哈哈哈哈哈哈哈哈哈哈哈哈哈哈哈哈哈哈哈哈哈哈哈哈哈哈哈哈哈哈哈哈哈哈哈哈哈哈哈哈哈哈哈哈哈哈哈哈哈哈哈哈哈哈哈哈哈哈哈哈哈哈哈哈哈哈哈哈哈哈哈哈哈哈哈哈哈哈哈哈哈哈哈哈哈哈哈哈哈哈哈哈哈哈哈哈哈哈哈哈哈哈哈哈哈哈哈哈哈哈哈哈哈哈哈哈哈哈哈哈哈哈哈哈哈哈哈哈哈哈哈哈哈哈哈哈哈哈哈哈哈哈哈哈哈哈哈哈哈哈哈哈哈哈哈哈哈哈哈哈哈哈哈哈哈哈哈哈哈哈哈哈哈哈哈哈哈哈哈哈哈哈哈哈哈哈哈哈哈哈哈哈哈哈哈哈哈哈哈哈哈哈哈哈哈哈哈哈哈哈哈哈哈哈哈哈哈哈哈哈哈哈哈哈哈哈哈哈哈哈哈哈哈哈哈哈哈哈哈哈哈哈哈哈哈哈哈哈哈哈哈哈哈哈哈哈哈哈哈哈哈哈哈哈哈哈哈哈哈哈哈哈哈哈哈哈哈哈哈哈哈哈哈哈哈哈哈哈哈哈哈哈哈哈哈哈哈哈哈1
+    </div>
+    <div id="scroll-bar">
+        <div id="scroll-btn"></div>
+    </div>
+</div>
+<script>
+    var oScrollBtn = document.getElementById("scroll-btn");
+    var oContent = document.getElementById("content");
+    var oScrollBar = document.getElementById("scroll-bar");
+    oScrollBtn.onmousedown = function (e) {
+        e = e || window.event;
+        var iDisY = e.clientY - oScrollBtn.offsetTop;
+        document.onmousemove = function (e) {
+            e = e || window.event;
+            var top = e.clientY - iDisY;
+            if (top < 0) {
+                top = 0;
+            }
+            var bMaxH = oScrollBar.offsetHeight - oScrollBtn.offsetHeight;
+            if (top > bMaxH) {
+                top = bMaxH;
+            }
+            oScrollBtn.style.top = top + "px";
+            var scaleY = top / bMaxH;
+            oContent.style.top = -scaleY * (oContent.offsetHeight - oScrollBar.offsetHeight) + "px";
+            //比例对应关系为   btn的top值与最大top值的比例 = 所向上移动距离与content多出部分的比例；
+            return false;
+        }
+    };
+    document.onmouseup = function () {
+        document.onmousemove = null;
+    }
+</script>
+
+</body>
+</html>
