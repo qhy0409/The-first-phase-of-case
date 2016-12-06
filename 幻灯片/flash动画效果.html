@@ -1,0 +1,247 @@
+<!DOCTYPE html>
+<html>
+<head lang="en">
+    <meta charset="UTF-8">
+    <title>幻灯片</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+        }
+
+        ul {
+            list-style: none;
+        }
+
+        #container {
+            width: 400px;
+            height: 434px;
+            margin: 50px auto;
+        }
+
+        #big-pic {
+            width: 400px;
+            height: 320px;
+            position: relative;
+        }
+
+        #big-img li {
+            width: 400px;
+            height: 320px;
+            position: absolute;
+            top: 0;
+            left: 0;
+            overflow: hidden;
+        }
+
+        #left, #right {
+            width: 200px;
+            height: 320px;
+            position: absolute;
+            top: 0;
+            z-index: 999999;
+            opacity: 0;
+        }
+
+        #left {
+            left: 0;
+        }
+
+        #right {
+            right: 0;
+        }
+
+        #left-btn, #right-btn {
+            width: 60px;
+            height: 60px;
+            position: absolute;
+            top: 130px;
+        }
+
+        #left-btn {
+            left: 0;
+            background: url("img/btn.gif");
+        }
+
+        #right-btn {
+            right: 0;
+            background: url("img/btn.gif") bottom;
+        }
+
+        #text {
+            width: 400px;
+            height: 30px;
+            position: absolute;
+            bottom: 0;
+            color: white;
+            background: black;
+            opacity: 0.5;
+            line-height: 30px;
+            z-index: 999998;
+        }
+
+        #text-left {
+            position: absolute;
+            left: 10px;
+        }
+
+        #text-right {
+            position: absolute;
+            right: 10px;
+        }
+
+        #small-pic {
+            width: 400px;
+            height: 114px;
+            position: relative;
+            background: #cccccc;
+            overflow: hidden;
+        }
+
+        #small-img {
+            width: 780px;
+            position: absolute;
+            left: 0;
+        }
+
+        #small-img li {
+            width: 120px;
+            height: 94px;
+            float: left;
+            margin: 10px 0 10px 10px;
+            opacity: 0.6;
+        }
+
+        #small-img li img {
+            width: 120px;
+            height: 94px;
+        }
+    </style>
+</head>
+<body>
+<div id="container">
+
+    <div id="big-pic">
+        <ul id="big-img">
+            <li style="z-index:1"><img src="img/1.jpg" alt="" title="111111"/></li>
+            <li><img src="img/2.jpg" alt="" title="222222"/></li>
+            <li><img src="img/3.jpg" alt="" title="333333"/></li>
+            <li><img src="img/4.jpg" alt="" title="444444"/></li>
+            <li><img src="img/5.jpg" alt="" title="555555"/></li>
+            <li><img src="img/6.jpg" alt="" title="666666"/></li>
+        </ul>
+
+        <div id="left">
+            <span id="left-btn"></span>
+        </div>
+
+        <div id="right">
+            <span id="right-btn"></span>
+        </div>
+
+        <div id="text">
+            <span id="text-left">111111</span>
+
+            <div id="text-right">
+                <span id="num">1</span>/<span>6</span>
+            </div>
+        </div>
+
+    </div>
+    <div id="small-pic">
+        <ul id="small-img">
+            <li style="opacity:1"><img src="img/1.jpg" alt=""/></li>
+            <li><img src="img/2.jpg" alt=""/></li>
+            <li><img src="img/3.jpg" alt=""/></li>
+            <li><img src="img/4.jpg" alt=""/></li>
+            <li><img src="img/5.jpg" alt=""/></li>
+            <li><img src="img/6.jpg" alt=""/></li>
+        </ul>
+    </div>
+</div>
+<script src="jslib.js"></script>
+<script>
+    var oContainer = document.getElementById("container");
+    var oLeft = document.getElementById("left");
+    var oRight = document.getElementById("right");
+    var oLeftBtn = document.getElementById("left-btn");
+    var oRightBtn = document.getElementById("right-btn");
+    var oSmallImg = document.getElementById("small-img");
+    var aSmallImg = oSmallImg.getElementsByTagName("li");
+    var oBigImg = document.getElementById("big-img");
+    var aBigImg = oBigImg.getElementsByTagName("li");
+    var oNum = document.getElementById("num");
+    var oTextLeft = document.getElementById("text-left");
+    var iNow = 0;
+    var zIndex = 10;
+    oLeft.onmouseover = oRight.onmouseover = function () {
+        animate(this, {opacity: 100});
+        //this.style.opacity=1;
+    };
+    oLeft.onmouseout = oRight.onmouseout = function () {
+        animate(this, {opacity: 0});
+        //this.style.opacity=0;
+    };
+    oLeftBtn.onclick = oRightBtn.onclick = function () {
+        if (this == oLeftBtn) {
+            iNow--;
+            if (iNow == -1) {
+                iNow = aSmallImg.length - 1;
+            }
+        } else {
+            iNow++;
+            if (iNow == aSmallImg.length) {
+                iNow = 0;
+            }
+        }
+        changeImg(iNow);
+    };
+    function changeImg(index) {
+        aBigImg[index].style.zIndex = zIndex++;
+        aBigImg[index].style.height = 0;
+        oNum.innerHTML = iNow + 1;
+        oTextLeft.innerHTML = aBigImg[index].getElementsByTagName("img")[0].title;
+
+        for (var i = 0; i < aSmallImg.length; i++) {
+            aSmallImg[i].style.opacity = 0.6;
+        }
+        aSmallImg[index].style.opacity = 1;
+        if (index == 0 || index == 1) {
+            oSmallImg.style.left = 0;
+        } else if (index == aSmallImg.length - 1) {
+            oSmallImg.style.left = -(index - 2) * (aSmallImg[0].offsetWidth + 10) + "px";
+        } else {
+            oSmallImg.style.left = -(index - 1) * (aSmallImg[0].offsetWidth + 10) + "px";
+        }
+
+        animate(aBigImg[index], {height: 320});
+    }
+    for (var i = 0; i < aSmallImg.length; i++) {
+        aSmallImg[i].index = i;
+        aSmallImg[i].onmouseover = function () {
+            this.style.opacity = 1;
+        };
+        aSmallImg[i].onmouseout = function () {
+            if (this.index != iNow) {
+                this.style.opacity = 0.6;
+            }
+        };
+        aSmallImg[i].onclick = function () {
+            changeImg(this.index);
+        };
+    }
+    var timer = setInterval(function () {
+        oRightBtn.onclick();
+    }, 1000);
+    oContainer.onmouseover = function () {
+        clearInterval(timer);
+    };
+    oContainer.onmouseout = function () {
+        timer = setInterval(function () {
+            oRightBtn.onclick();
+        }, 1000);
+    }
+
+</script>
+</body>
+</html>
